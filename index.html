@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <meta name="theme-color" content="#101b16">
-  <title>Fronteira Selvagem — Protótipo 0.2</title>
+  <title>Fronteira Selvagem — Protótipo 0.3</title>
   <style>
     *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101b16;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#fff;touch-action:none}
     #app{position:fixed;inset:0}canvas{width:100%;height:100%;display:block;outline:none}
@@ -15,6 +15,7 @@
     #controls{position:fixed;inset:0;pointer-events:none}.stick{position:absolute;left:22px;bottom:24px;width:126px;height:126px;border-radius:50%;background:#ffffff20;border:2px solid #ffffff55;pointer-events:auto;touch-action:none}
     #nub{position:absolute;width:54px;height:54px;left:34px;top:34px;border-radius:50%;background:#d8e5cfcc;border:2px solid #fff8}
     #action{position:absolute;right:24px;bottom:42px;width:78px;height:78px;border-radius:50%;border:2px solid #fff9;background:#b4d19bdb;color:#152016;font-weight:900;pointer-events:auto;touch-action:none}
+    #run{position:absolute;right:112px;bottom:52px;width:64px;height:64px;border-radius:50%;border:2px solid #fff9;background:#d5d9aacc;color:#182016;font-size:10px;font-weight:900;pointer-events:auto;touch-action:none}
     #start{position:fixed;inset:0;background:linear-gradient(#07100ab8,#07100ae8);display:flex;align-items:center;justify-content:center;padding:24px}
     #startCard{max-width:360px;text-align:center;background:#18251deF;border:1px solid #ffffff30;border-radius:20px;padding:26px;box-shadow:0 20px 70px #0009}
     #start h1{font-size:26px;margin:0 0 8px;letter-spacing:.03em}#start p{color:#d2ddcf;font-size:14px;line-height:1.5}
@@ -33,9 +34,9 @@
   </div>
   <div id="controls">
     <div class="stick" id="stick"><div id="nub"></div></div>
-    <button id="action" aria-label="Ação">AÇÃO</button>
+    <button id="run" aria-label="Correr">CORRER</button><button id="action" aria-label="Ação">AÇÃO</button>
   </div>
-  <div id="start"><div id="startCard"><h1>FRONTEIRA<br>SELVAGEM</h1><p>Protótipo jogável · Missão 01<br>Explore a mata e recolha 5 suprimentos usando o botão AÇÃO.</p><p>Use o controle esquerdo para andar e arraste a tela para girar a câmera.</p><button id="play">INICIAR MISSÃO</button></div></div>
+  <div id="start"><div id="startCard"><h1>FRONTEIRA<br>SELVAGEM</h1><p>Protótipo jogável · Missão 01<br>Explore a mata e recolha 5 suprimentos usando o botão AÇÃO.</p><p>Use o controle esquerdo para andar, CORRER para acelerar, arraste a tela para girar a câmera e AÇÃO para recolher.</p><button id="play">INICIAR MISSÃO</button></div></div>
   <script src="https://code.playcanvas.com/playcanvas-stable.min.js"></script>
   <script>
   (() => {
@@ -58,14 +59,14 @@
     const fill=new pc.Entity('Luz ambiente');fill.addComponent('light',{type:'omni',color:new pc.Color(0.52,0.67,0.48),intensity:0.35,range:35});fill.setPosition(0,8,0);app.root.addChild(fill);
     const world=new pc.Entity('Mata');app.root.addChild(world);
     let seed=7182;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;};
-    for(let i=0;i<105;i++){const x=(rand()-.5)*82,z=(rand()-.5)*82;if(Math.hypot(x,z)<5)continue;const h=3+rand()*3.2;const tree=new pc.Entity('Árvore');tree.setPosition(x,0,z);world.addChild(tree);const trunk=addBox(tree,'Tronco',[0,h*.34,0],[.42,h*.68,.42],mats.trunk);trunk.setEulerAngles(0,rand()*25,0);addSphere(tree,'Copa',[0,h*.86,0],[2.1+rand(),2.5+rand(),2.1+rand()],rand()>.5?mats.leaf:mats.leaf2);}
-    for(let i=0;i<42;i++){const x=(rand()-.5)*78,z=(rand()-.5)*78;if(Math.hypot(x,z)<4)continue;const r=.4+rand()*.8;const rock=addSphere(world,'Pedra',[x,r*.35,z],[r*1.5,r,r],mats.rock);rock.setEulerAngles(rand()*25,rand()*360,rand()*20);}
+    const obstacles=[];for(let i=0;i<105;i++){const x=(rand()-.5)*82,z=(rand()-.5)*82;if(Math.hypot(x,z)<5)continue;const h=3+rand()*3.2;const tree=new pc.Entity('Árvore');tree.setPosition(x,0,z);world.addChild(tree);obstacles.push({x,z,r:.62});const trunk=addBox(tree,'Tronco',[0,h*.34,0],[.42,h*.68,.42],mats.trunk);trunk.setEulerAngles(0,rand()*25,0);addSphere(tree,'Copa',[0,h*.86,0],[2.1+rand(),2.5+rand(),2.1+rand()],rand()>.5?mats.leaf:mats.leaf2);}
+    for(let i=0;i<42;i++){const x=(rand()-.5)*78,z=(rand()-.5)*78;if(Math.hypot(x,z)<4)continue;const r=.4+rand()*.8;obstacles.push({x,z,r:r*.72+.28});const rock=addSphere(world,'Pedra',[x,r*.35,z],[r*1.5,r,r],mats.rock);rock.setEulerAngles(rand()*25,rand()*360,rand()*20);}
     const player=new pc.Entity('Jogador');player.setPosition(0,0,0);app.root.addChild(player);
     addBox(player,'Corpo',[0,1.12,0],[.72,1.05,.42],mats.player);
     addSphere(player,'Cabeca',[0,1.88,0],[.48,.5,.48],mats.skin);
     addBox(player,'Mochila',[0,1.15,-.29],[.5,.66,.22],mats.pack);
     const camera=new pc.Entity('Camera');camera.addComponent('camera',{clearColor:new pc.Color(.43,.52,.42),fov:68,nearClip:.1,farClip:120});app.root.addChild(camera);
-    let yaw=0,pitch=-12,moveX=0,moveY=0,dragging=false,lastX=0,lastY=0,started=false,collected=0,actionPulse=false;
+    let yaw=0,pitch=-12,moveX=0,moveY=0,dragging=false,lastX=0,lastY=0,started=false,collected=0,actionPulse=false,running=false,nearestCollisionMessage=false;
     const supplies=[];
     const spots=[[-7,2],[8,-5],[-13,-11],[15,13],[1,20]];
     spots.forEach((p,i)=>{const e=addSphere(world,'Suprimento '+(i+1),[p[0],.9,p[1]],[.65,.65,.65],mats.supply);const ring=new pc.Entity('Brilho');ring.addComponent('render',{type:'cylinder',material:mats.supply});ring.setLocalScale(1.05,.06,1.05);ring.setLocalPosition(p[0],.18,p[1]);world.addChild(ring);supplies.push({entity:e,ring,got:false});});
@@ -78,9 +79,9 @@
     stick.addEventListener('pointermove',e=>{if(e.pointerId===stickId)updateStick(e);});
     const resetStick=()=>{stickId=null;moveX=moveY=0;nub.style.transform='translate(0,0)';};stick.addEventListener('pointerup',resetStick);stick.addEventListener('pointercancel',resetStick);
     function updateStick(e){const r=stick.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2),len=Math.hypot(dx,dy),max=43,k=len>max?max/len:1;moveX=-dx*k/max;moveY=-dy*k/max;nub.style.transform='translate('+dx*k+'px,'+dy*k+'px)';}
-    document.getElementById('action').addEventListener('pointerdown',e=>{e.preventDefault();actionPulse=true;});
+    document.getElementById('action').addEventListener('pointerdown',e=>{e.preventDefault();actionPulse=true;});const runBtn=document.getElementById('run');runBtn.addEventListener('pointerdown',e=>{e.preventDefault();running=true;runBtn.setPointerCapture(e.pointerId);});const stopRun=()=>running=false;runBtn.addEventListener('pointerup',stopRun);runBtn.addEventListener('pointercancel',stopRun);runBtn.addEventListener('lostpointercapture',stopRun);
     function updateCamera(dt){const rad=yaw*Math.PI/180,dist=6.2;const target=new pc.Vec3(player.getPosition().x-Math.sin(rad)*dist,player.getPosition().y+3.1,player.getPosition().z-Math.cos(rad)*dist);camera.setPosition(camera.getPosition().lerp(camera.getPosition(),target,Math.min(1,dt*5)));camera.lookAt(player.getPosition().x,player.getPosition().y+1.1,player.getPosition().z);}
-    app.on('update',dt=>{if(!started)return;let ix=moveX,iy=moveY;if(keys.w||keys.arrowup)iy+=1;if(keys.s||keys.arrowdown)iy-=1;if(keys.a||keys.arrowleft)ix-=1;if(keys.d||keys.arrowright)ix+=1;const mag=Math.hypot(ix,iy);if(mag>1){ix/=mag;iy/=mag;}const a=yaw*Math.PI/180;const dx=(ix*Math.cos(a)+iy*Math.sin(a))*5.2*dt,dz=(-ix*Math.sin(a)+iy*Math.cos(a))*5.2*dt;player.translate(dx,0,dz);const pos=player.getPosition();pos.x=Math.max(-43,Math.min(43,pos.x));pos.z=Math.max(-43,Math.min(43,pos.z));player.setPosition(pos);if(mag>.08)player.setEulerAngles(0,Math.atan2(dx,dz)*180/Math.PI,0);let nearest=null,nearestDistance=2.8;supplies.forEach(s=>{if(!s.got){const d=player.getPosition().distance(s.entity.getPosition());if(d<nearestDistance){nearest=s;nearestDistance=d;}}});if(actionPulse){actionPulse=false;if(nearest){nearest.got=true;nearest.entity.destroy();nearest.ring.destroy();collected++;countEl.textContent=collected+' / 5';if(collected===5){objectiveEl.textContent='Missão concluída!';hintEl.textContent='Você encontrou todos os suprimentos. Missão concluída!';}else{hintEl.textContent='Suprimento recolhido! '+(5-collected)+' restante(s).';}}else{hintEl.textContent='Chegue mais perto de um suprimento e toque em AÇÃO.';}}else if(nearest&&collected<5){hintEl.textContent='Suprimento próximo! Toque em AÇÃO para recolher.';}updateCamera(dt);});
+    app.on('update',dt=>{if(!started)return;dt=Math.min(dt,.05);let ix=moveX,iy=moveY;if(keys.w||keys.arrowup)iy+=1;if(keys.s||keys.arrowdown)iy-=1;if(keys.a||keys.arrowleft)ix-=1;if(keys.d||keys.arrowright)ix+=1;const mag=Math.hypot(ix,iy);if(mag>1){ix/=mag;iy/=mag;}const a=yaw*Math.PI/180,speed=(running||keys.shift?8.0:5.2)*dt;const dx=(ix*Math.cos(a)+iy*Math.sin(a))*speed,dz=(-ix*Math.sin(a)+iy*Math.cos(a))*speed;const pos=player.getPosition().clone();let hit=false;const blocked=(x,z)=>obstacles.some(o=>{const ox=x-o.x,oz=z-o.z,rr=o.r+.43;return ox*ox+oz*oz<rr*rr;});const nx=Math.max(-43,Math.min(43,pos.x+dx));if(!blocked(nx,pos.z))pos.x=nx;else if(Math.abs(dx)>.001)hit=true;const nz=Math.max(-43,Math.min(43,pos.z+dz));if(!blocked(pos.x,nz))pos.z=nz;else if(Math.abs(dz)>.001)hit=true;player.setPosition(pos);if(hit&&mag>.08&&!nearestCollisionMessage){hintEl.textContent='Obstáculo no caminho! Contorne a árvore ou pedra.';nearestCollisionMessage=true;}if(!hit)nearestCollisionMessage=false;if(mag>.08)player.setEulerAngles(0,Math.atan2(dx,dz)*180/Math.PI,0);let nearest=null,nearestDistance=2.8;supplies.forEach(s=>{if(!s.got){const d=player.getPosition().distance(s.entity.getPosition());if(d<nearestDistance){nearest=s;nearestDistance=d;}}});if(actionPulse){actionPulse=false;if(nearest){nearest.got=true;nearest.entity.destroy();nearest.ring.destroy();collected++;countEl.textContent=collected+' / 5';if(collected===5){objectiveEl.textContent='Missão concluída!';hintEl.textContent='Você encontrou todos os suprimentos. Missão concluída!';}else{hintEl.textContent='Suprimento recolhido! '+(5-collected)+' restante(s).';}}else{hintEl.textContent='Chegue mais perto de um suprimento e toque em AÇÃO.';}}else if(nearest&&collected<5){hintEl.textContent='Suprimento próximo! Toque em AÇÃO para recolher.';}updateCamera(dt);});
     camera.setPosition(0,3,-6);camera.lookAt(0,1,0);app.start();
     document.getElementById('play').addEventListener('click',()=>{started=true;start.style.display='none';});
     window.addEventListener('resize',()=>app.resizeCanvas());
