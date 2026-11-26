@@ -18,13 +18,13 @@ Protótipo inicial de um jogo de sobrevivência 3D para navegador, pensado prime
 - Computador: WASD ou setas para andar; mouse para girar a câmera.
 
 ## Estado do projeto
-Versão 0.4 — inclui barras de vida, fome e sede; os suprimentos recuperam fome e sede; quando uma delas zera, a vida diminui até o fim da partida. Mantém cenário 3D procedural, colisão aproximada com troncos e pedras, corrida, deslizamento lateral e coleta contextual pelo botão **AÇÃO**, inventário de madeira e pedra e dez pontos de coleta de materiais. O motor PlayCanvas é carregado por CDN, então é necessária conexão com a internet.
+Versão 0.5 — inclui barras de vida, fome e sede; os suprimentos recuperam fome e sede; quando uma delas zera, a vida diminui até o fim da partida. Mantém cenário 3D procedural, colisão aproximada com troncos e pedras, corrida, deslizamento lateral e coleta contextual pelo botão **AÇÃO**, inventário de madeira e pedra e dez pontos de coleta de materiais. O motor PlayCanvas é carregado por CDN, então é necessária conexão com a internet.
 
 ## Próximas etapas
 1. Testar em aparelhos Android reais e otimizar desempenho.
 2. Melhorar personagem, animações, colisões e interação contextual.
 3. Adicionar fabricação de ferramentas e construção de abrigo.
 4. Adicionar ameaças, salvamento e progressão.
-4. Planejar multiplayer somente depois de estabilizar a experiência solo.
+5. Planejar multiplayer somente depois de estabilizar a experiência solo.
 
 Este é um protótipo inicial: ainda não é um jogo completo nem possui multiplayer.
