@@ -7,18 +7,19 @@ Protótipo inicial de um jogo de sobrevivência 3D para navegador, pensado prime
 - Toque em **Iniciar missão**.
 - Use o controle circular esquerdo para andar.
 - Arraste a parte direita da tela para girar a câmera.
-- Encontre os cinco suprimentos verdes espalhados pela mata.
+- Aproxime-se de um suprimento verde e toque em **AÇÃO** para recolhê-lo.
 
 ## Controles
-- Celular: joystick virtual e arrasto para câmera.
+- Celular: joystick virtual (esquerda/direita corrigidas), arrasto na área direita para câmera e botão **AÇÃO** para interagir.
+- Para recolher: fique a poucos passos do suprimento e toque em **AÇÃO**.
 - Computador: WASD ou setas para andar; mouse para girar a câmera.
 
 ## Estado do projeto
-Versão 0.1 — cenário 3D procedural, personagem simples em terceira pessoa, coleta de cinco itens e HUD de missão. O motor PlayCanvas é carregado por CDN, então é necessária conexão com a internet.
+Versão 0.2 — cenário 3D procedural, personagem em terceira pessoa, HUD de missão e coleta contextual dos cinco suprimentos pelo botão **AÇÃO**. O motor PlayCanvas é carregado por CDN, então é necessária conexão com a internet.
 
 ## Próximas etapas
 1. Testar em aparelhos Android reais e otimizar desempenho.
-2. Melhorar personagem, animações, colisões e interação.
+2. Melhorar personagem, animações, colisões e interação contextual.
 3. Adicionar inventário, recursos, ameaças e salvamento.
 4. Planejar multiplayer somente depois de estabilizar a experiência solo.
 
