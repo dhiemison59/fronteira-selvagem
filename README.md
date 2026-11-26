@@ -5,17 +5,17 @@ Protótipo inicial de um jogo de sobrevivência 3D para navegador, pensado prime
 ## Como jogar
 - Abra **index.html** no GitHub Pages ou em um servidor web estático.
 - Toque em **Iniciar missão**.
-- Use o controle circular esquerdo para andar.
+- Use o controle circular esquerdo para andar. Árvores e pedras bloqueiam a passagem.
 - Arraste a parte direita da tela para girar a câmera.
 - Aproxime-se de um suprimento verde e toque em **AÇÃO** para recolhê-lo.
 
 ## Controles
-- Celular: joystick virtual (esquerda/direita corrigidas), arrasto na área direita para câmera e botão **AÇÃO** para interagir.
+- Celular: joystick virtual (esquerda/direita corrigidas), arrasto na área direita para câmera, botão **CORRER** (segure) para acelerar e botão **AÇÃO** para interagir.
 - Para recolher: fique a poucos passos do suprimento e toque em **AÇÃO**.
 - Computador: WASD ou setas para andar; mouse para girar a câmera.
 
 ## Estado do projeto
-Versão 0.2 — cenário 3D procedural, personagem em terceira pessoa, HUD de missão e coleta contextual dos cinco suprimentos pelo botão **AÇÃO**. O motor PlayCanvas é carregado por CDN, então é necessária conexão com a internet.
+Versão 0.3 — cenário 3D procedural, colisão circular com troncos e pedras, corrida por botão pressionado, movimento com deslizamento lateral e coleta contextual pelo botão **AÇÃO**. O motor PlayCanvas é carregado por CDN, então é necessária conexão com a internet.
 
 ## Próximas etapas
 1. Testar em aparelhos Android reais e otimizar desempenho.
